@@ -29,8 +29,14 @@ import java.util.Map;
 import java.lang.Math;
 
 @SuppressLint("ViewConstructor")
-public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnPreparedListener, MediaPlayer
-        .OnErrorListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnInfoListener, LifecycleEventListener, MediaController.MediaPlayerControl {
+public class ReactVideoView extends ScalableVideoView implements
+        MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnErrorListener,
+        MediaPlayer.OnBufferingUpdateListener,
+        MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnInfoListener,
+        LifecycleEventListener,
+        MediaController.MediaPlayerControl {
 
     public enum Events {
         EVENT_LOAD_START("onVideoLoadStart"),
@@ -254,9 +260,7 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
                     try {
                         expansionFile = APKExpansionSupport.getAPKExpansionZipFile(mThemedReactContext, mMainVer, mPatchVer);
                         fd = expansionFile.getAssetFileDescriptor(uriString.replace(".mp4","") + ".mp4");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (NullPointerException e) {
+                    } catch (IOException | NullPointerException e) {
                         e.printStackTrace();
                     }
                 }
@@ -326,6 +330,7 @@ public class ReactVideoView extends ScalableVideoView implements MediaPlayer.OnP
     public void setPausedModifier(final boolean paused) {
 
         mPaused = paused;
+        mActiveStatePauseStatus = paused;
 
         if ( !mActiveStatePauseStatusInitialized ) {
             mActiveStatePauseStatus = mPaused;
